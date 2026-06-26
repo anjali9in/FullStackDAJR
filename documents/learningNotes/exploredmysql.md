@@ -1626,6 +1626,29 @@ LOCK IN SHARE MODE;
 ## MVCC
 
 Multi-Version Concurrency Control lets readers see a consistent snapshot without blocking writers in many cases.
+MVCC allows robust databases to be fast, highly concurrent, and completely safe from data corruption during parallel processing.
+
+#### The Problem MVCC Solves
+In older or simpler databases (like MyISAM), if a user is updating a table, the database has to "lock" that data so nobody else can read a half-finished update.
+* The result: Readers have to wait for writers to finish, and writers have to wait for readers to finish. In a high-traffic backend system, this creates a massive bottleneck.
+
+### How MVCC Works (The "Multi-Version" Part)
+MVCC solves this by creating snapshots (multiple versions) of the data.
+
+* Instead of locking the data and forcing everyone to wait, the database keeps the old version of the row available while the new version is being written.
+
+* Every transaction gets an ID: When a transaction starts, it is assigned a unique, incrementing Transaction ID.
+
+* Writers create new versions: When Transaction A updates a row, it doesn't overwrite the original data immediately. Instead, it creates a new version of that row stamped with its Transaction ID.
+
+ Readers see old versions: If Transaction B tries to read that same row while Transaction A is still working, the database looks at Transaction B's ID, realizes it shouldn't see the uncommitted changes, and serves it the older, original version of the row.
+
+## Why This Matters for Backend Architecture
+* High Throughput: Your application can handle thousands of concurrent SELECT queries while bulk UPDATE operations are happening in the background, without any locking conflicts.
+
+* Consistent Backups: You can take a snapshot backup of a massive database without having to take the database offline or lock tables. The backup process just reads the version of the data that existed at the exact millisecond the backup started.
+
+* Isolation Levels: MVCC is the magic behind the ACID isolation level called Repeatable Read (which is InnoDB's default). It guarantees that if your application queries the same row twice within a single transaction, it will get the exact same result both times, even if another transaction modified that row in between the two queries.
 
 InnoDB uses:
 
