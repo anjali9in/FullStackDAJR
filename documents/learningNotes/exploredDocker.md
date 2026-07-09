@@ -1,7 +1,5 @@
 # Explored Docker
 
-Revision notes for a 1-5 years developer. Covers Docker concepts, commands, Dockerfile, images, containers, volumes, networks, Docker Compose, application usage, debugging, optimization, and interview cheat sheets.
-
 Docker is a platform for packaging and running applications in isolated environments called containers. A container includes your application, runtime, libraries, environment variables, and filesystem dependencies. This makes applications easier to run consistently across local development, CI/CD, staging, and production.
 
 ---
@@ -70,6 +68,30 @@ Example:
 
 # 3. Core Concepts
 
+1. The Docker Engine: 
+ In your local system, you have the Docker Engine, which consists of two main parts: the Docker CLI (the client where you type commands) and the Docker Daemon (the background service that actually does the heavy lifting of building and running containers).
+
+2. The Dockerfile:
+ The Dockerfile acts as the blueprint. You start with a base image (using the FROM instruction), copy your code into it (COPY or ADD), expose necessary ports (EXPOSE), and define the startup commands (CMD or ENTRYPOINT).
+
+3. Build and Push:
+ You run docker build via the CLI, and the Docker Daemon executes the instructions in your Dockerfile to generate a Docker Image. From there, you can use docker push to upload that image to a Docker Registry (like Docker Hub, AWS ECR, etc.) so others or your production servers can access it.
+
+4. Running and Pulling:
+ When you execute a command like docker run my-app:latest:
+
+note- It is not the container that checks for the image. The container doesn't exist yet!
+
+It is the Docker Daemon that receives your run command.
+ The Daemon first looks in your Local Image Cache (on your computer's hard drive) to see if my-app:latest is already downloaded.
+ If it is there, it instantly creates and starts the container from that local image.
+
+ If it is not there (or if you explicitly told it to always pull the latest version), the Docker Daemon connects to the Docker Registry, pulls the image down to your local cache, and then builds and runs the container.
+
+ One Small Addition to Keep in Mind:
+ Remember The Image (what you build and push) is a read-only blueprint. The Container (what you run) is the live, running instance of that blueprint. If a container stops or dies, the underlying image remains perfectly intact.
+
+
 | Concept | Meaning |
 |---|---|
 | Dockerfile | Text recipe to build an image |
@@ -90,6 +112,8 @@ Example:
 | Entrypoint/CMD | Container startup command |
 
 ---
+docker engine - (docker daemon) -> docker images, containers, networks, volumes -> docker registry
+docker hub
 
 # 4. Dockerfile, Image, Container
 
@@ -139,7 +163,7 @@ Analogy:
 Container = cake being served/running
 ```
 
-## Docker Engine = Builder And Runner
+## Docker Engine - daemon+cli = Builder And Runner
 
 Docker reads Dockerfile, builds image, and runs container.
 
@@ -149,7 +173,7 @@ Daily flow:
 Write Dockerfile
 Build image
 Run container
-Push image to registry
+Push image to registry - (networks & volumes)
 Deploy image
 ```
 
