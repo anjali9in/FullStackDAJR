@@ -1,33 +1,11 @@
 package com.core.fullstack.designpatterns.creational;
 
-public class Builder {
+import lombok.ToString;
 
-	private final String orderId;
-	private final String customerName;
-	private final String deliveryAddress;
-	private final boolean expressDelivery;
+public record Builder(String orderId, String customerName, String deliveryAddress, boolean expressDelivery) {
 
 	private Builder(CustomOrderBuilder builder) {
-		this.orderId = builder.orderId;
-		this.customerName = builder.customerName;
-		this.deliveryAddress = builder.deliveryAddress;
-		this.expressDelivery = builder.expressDelivery;
-	}
-
-	public String getOrderId() {
-		return orderId;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public String getDeliveryAddress() {
-		return deliveryAddress;
-	}
-
-	public boolean isExpressDelivery() {
-		return expressDelivery;
+		this(builder.orderId, builder.customerName, builder.deliveryAddress, builder.expressDelivery);
 	}
 
 	@Override
@@ -72,12 +50,12 @@ public class Builder {
         }
     }
     
-    // public static void main(String[] args) {
-    //     Builder order = new Builder.CustomOrderBuilder("ORD-1001", "Anjali")
-    //             .deliveryAddress("Bengaluru, India")
-    //             .expressDelivery(true)
-    //             .build();
+    public static void main(String[] args) {
+        Builder order = new Builder.CustomOrderBuilder("ORD-1001", "Anjali")
+                .deliveryAddress("Bengaluru, India")
+                .expressDelivery(true)
+                .build();
 
-    //     System.out.println(order);
-    // }
+        System.out.println(order);
+    }
 }
