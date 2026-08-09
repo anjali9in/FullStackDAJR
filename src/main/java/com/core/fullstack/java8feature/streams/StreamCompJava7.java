@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.Map;
 
-public class StreamPractice2 {
+public class StreamCompJava7 {
 
    public static void main(String args[]) {
       System.out.println("Using Java 7: ");
@@ -175,7 +175,7 @@ public class StreamPractice2 {
       return min;
    }
 	
-   private static int getSum(List<Integer> numbers) {
+	private static int getSum(List<Integer> numbers) {
       int sum = (int)(numbers.get(0));
 		
       for(int i = 1;i < numbers.size();i++) {
