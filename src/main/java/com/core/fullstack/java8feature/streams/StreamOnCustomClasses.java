@@ -23,8 +23,36 @@ public class StreamOnCustomClasses {
 		StreamOnCustomClasses val = new StreamOnCustomClasses();
 //		Employee emp = new Employee();
 //		List<Employee> dd = val.getData(emp);
-		streamOverEmpDep();
+		streamOverEmpRDep();
 	}
+	
+	public static void streamOverEmpRDep() {
+
+		List<EmpRelDep> empDepList = Arrays.asList(new EmpRelDep("John", "E001", "john@tb", "1234567890", "001", 50000.0),
+				new EmpRelDep("Alice", "E002", "alice@tb", "9876543210", "002", 60000.0),
+				new EmpRelDep("Bob", "E003", "bob@tb", "5555555555", "001", 55000.0),
+				new EmpRelDep("Eve", "E004", "eve@tb", "1111111111", "003", 70000.0),
+				new EmpRelDep("Charlie", "E005", "charlie@tb", "2222222222", "005", 55000.0),
+				new EmpRelDep("David", "E006", "david@tb", "3333333333", "003", 60000.0),
+				new EmpRelDep("Frank", "E007", "frank@tb", "4444444444", "002", 65000.0),
+				new EmpRelDep("Grace", "E008", "grace@tb", "5555555555", "003", 58000.0));
+
+
+		List<EmpRelDep> sortByDeparSal = empDepList.stream()
+				.sorted(Comparator.comparing(EmpRelDep::depId).thenComparing(EmpRelDep::salary).reversed()).toList();
+
+		Map<String, List<EmpRelDep>> top2SalEmpByDep = sortByDeparSal.stream()
+				.collect(Collectors.groupingBy(EmpRelDep::depId, Collectors.toList()));
+		
+		List<Dep> dList = Arrays.asList(new Dep("IT", "001"), new Dep("HR", "002"), new Dep("Finance", "003"), new Dep("Sales", "004"), new Dep("Marketing", "005"));
+		
+		top2SalEmpByDep.forEach((dep, emp) -> {
+			System.out.println("Department: " + dList.stream().filter(d -> d.depId().equals(dep)).findFirst().map(Dep::depName).orElse("Unknown"));
+			emp.forEach(System.out::println);
+			emp.stream().limit(1).forEach(System.out::println);
+		});
+	}
+
 
 	public static void streamOverEmpDep() {
 
@@ -53,7 +81,8 @@ public class StreamOnCustomClasses {
 		// top n salary employee in each department using limit
 		List<EmpDep> sortByDeparSalList = empDepList.stream()
 				.sorted(Comparator.comparing(EmpDep::depName).thenComparing(EmpDep::salary).reversed())
-				.collect(Collectors.groupingBy(EmpDep::depName, Collectors.toList())).values().stream()
+				.collect(Collectors.groupingBy(EmpDep::depName, Collectors.toList()))
+				.values().stream()
 				.map(empList -> empList.stream().limit(1).toList())
 				.flatMap(List::stream)
 				.toList();
@@ -126,5 +155,8 @@ record Emp(String empName, String empId, String empEmail, String mobile, Double 
 record EmpDep(String empName, String empId, String empEmail, String mobile, String depName, Double salary) {
 }
 
-record Dep(String depName, String depId, String empId) {
+record EmpRelDep(String empName, String empId, String empEmail, String mobile, String depId, Double salary) {
+}
+
+record Dep(String depName, String depId) {
 }
