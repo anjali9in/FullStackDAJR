@@ -1,4 +1,4 @@
-package com.core.fullstack.java8feature.streamsOptional;
+package com.core.fullstack.java8feature.streams;
 
 import java.util.Arrays;
 import java.util.Comparator;
