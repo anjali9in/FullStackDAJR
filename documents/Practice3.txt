@@ -1,0 +1,396 @@
+Microservices
+•	circuit breaker
+o	Close state
+o	Open state
+o	Half open state
+•	Communication between services
+o	Synchronous
+	HTTP/REST, gRPC, GraphQL
+o	Asynchronous
+	Message Queue (e.g., RabbitMQ, Apache Kafka), Event streaming (e.g., Kafka, Amazon Kinesis), Publish-subscribe (e.g., MQTT, AWS SNS).
+o	Hybrid
+	CQRS (Command Query Responsibility Segregation), Saga Pattern
+•	Api gateway
+o	Key Functions:
+	Request Routing
+	Load Balancing
+	Authentication and Authorization
+	Rate Limiting and Throttling
+	Caching
+	Transformation and Aggregation
+	Monitoring and Logging
+	Security
+	Service Discovery Integration
+o	Benefits:
+	Simplified Client Interaction
+	Centralized Cross-Cutting Concerns
+	Reduced Latency and Improved Performance
+o	Challenges:
+	Single Point of Failure
+	Performance Overhead
+	Complexity
+	Scalability
+•	Load balancer
+o	Key Functions:
+	Traffic Distribution
+	Health Monitoring
+	Failover
+	Session Persistence
+	SSL Termination
+	Layer 7 Routing (Application Layer)
+	Layer 4 Routing (Transport Layer)
+o	Benefits:
+	Improved Availability
+	Enhanced Scalability
+	Better Performance
+	Fault Tolerance
+	Security
+o	Challenges:
+	Single Point of Failure
+	Latency
+	Configuration Complexity
+	Cost
+•	Design pattern of microservice
+o	API Gateway
+o	Service Discovery
+o	Circuit Breaker
+o	Event Sourcing
+o	Saga
+o	Strangler Fig
+o	Database per Service
+o	Backend for Frontend (BFF)
+o	Rate Limiting
+
+------------------------------------------------------------------
+
+Others
+•	Agile methodology
+•	Linux commands
+•	any enhancement done and received appreciation from Manager/lead.
+•	how good you are to understand the code by yourself and the approach you would follow.
+•	have you worked on prod support/how do you check the logs and identify the issues?
+•	SOLID principle
+o	S - Single Responsibility Principle (SRP)
+o	O - Open/Closed Principle (OCP)
+o	L - Liskov Substitution Principle (LSP)
+o	I - Interface Segregation Principle (ISP)
+o	D - Dependency Inversion Principle (DIP)
+•	Design patterns
+o	OOPs
+1.	Creational
+•	Singleton
+•	Factory method
+•	Abstract Factory
+•	Builder
+•	Prototype
+2.	Structural
+•	Adapter
+•	Bridge
+•	Composite
+•	Decorator
+•	Facade
+•	Flyweight
+•	Proxy
+3.	Behavioral	
+•	Chain of Responsibility
+•	Command
+•	Interpreter
+•	Iterator
+•	Mediator
+•	Memento
+•	Observer
+•	State
+•	Strategy
+•	Template Method
+•	Visitor
+
+
+______________________________________________
+
+
+DevOps
+•	How to deploy application?
+o	Deploying as a Standalone Application
+o	Deploying on a Web Server (e.g., Tomcat)
+o	Deploying on Cloud Platforms (e.g., AWS, Heroku)
+o	Using Docker
+•	Blue Deployment and Green Deployment in Jenkins
+o	2 environments to reduce downtime while deploying
+•	What is docker?
+•	What is EKS (Elastic Kubernetes Service)?
+•	What is Jenkins?
+•	How to check application logs?
+•	What is the use of Prometheus, Grafana, Kibana and Portainer?
+•	Service Discovery
+o	Types:
+1.	Client-Side Discovery:
+2.	Server-Side Discovery:
+•	Various services in cloud computing (Delivery model)
+o	SaaS – Software as a Service
+o	PaaS – Platform as a Service
+o	IaaS – Infrastructure as a Service
+o	 
+•	Test
+______________________________________________________________________________
+
+Spring Boot
+•	What is RESTful Webservices?
+o	Architectural styles that use HTTP requests to access and manipulate data
+o	Representational State Transfer (REST) are commonly used for building APIs
+•	Spring modules?
+o	Core Container
+	Spring Core, Spring Beans, Spring Context, Spring Expression Language (SpEL)
+o	AOP (Aspect-Oriented Programming)
+o	Data Access/Integration
+	JDBC, ORM, JMS (Java Messaging Service), Transactions
+o	Web
+	MVC, WebSocket, REST
+o	Security
+o	Testing
+o	Messaging
+o	Cloud
+o	Spring Boot
+•	REST API flow
+o	Client sends an HTTP request to the server.
+o	Server processes the request using a controller, service, and data layer.
+o	Server sends an HTTP response with a status code and optional data.
+o	Client receives and processes the response (data or error handling).
+•	Http Methods and it's difference. When to use which one
+o	GET: Retrieve data (read-only).
+o	POST: Create new resources.
+o	PUT: Replace or update an entire resource.
+o	PATCH: Partially update a resource.
+o	DELETE: Remove a resource.
+o	OPTIONS: Discover available HTTP methods.
+o	HEAD: Fetch headers without the body.
+•	Exception Handling in Spring Boot
+o	@ExceptionHandler: Handles exceptions in a specific controller.
+o	@ControllerAdvice: Provides global exception handling across multiple controllers.
+o	ResponseEntityExceptionHandler: Base class for centralized exception handling.
+o	Custom Error Response: Creates structured error responses for better client communication.
+o	Validation and Binding Errors: Handles validation and binding errors effectively.
+•	Caching in Spring Boot
+o	Add Dependencies: Include the necessary dependencies for your caching provider.
+o	Enable Caching: Use @EnableCaching to enable caching.
+o	Configure Cache Manager: Define a cache manager bean according to your caching provider.
+o	Use Caching Annotations: Use @Cacheable, @CachePut, @CacheEvict, and @Caching to manage caching in your service methods.
+o	Application Properties: Configure any necessary properties for your caching provider (e.g., Redis connection settings).
+•	How JWT works internally
+o	Header
+	Type and algorithm
+o	Payload
+	Claims
+•	Registered
+•	Public
+•	Private
+o	Signature
+•	How to connect multi-DB parallelly using spring boot
+o	Add the necessary dependencies
+o	Configure DB credentials in yml/properties
+o	Configure DataSources for Each Database
+o	Configure EntityManager and TransactionManager
+o	Create Separate Repositories for Each Database
+o	Run Your Application
+•	Rest-controller vs controller
+•	Spring data vs spring data rest
+o	Spring Data: Use it when you need to access and manipulate data in your application, whether it's a web application, microservice, or any other type of Java application.
+o	Spring Data REST: Use it when you want to expose your data model as a RESTful service quickly, allowing clients to interact with the data using standard HTTP methods (GET, POST, PUT, DELETE).
+
+Feature	                Spring Data	                                        Spring Data REST
+Purpose	          Simplifies data access and persistence	            Exposes data access as RESTful API
+Primary Use	      Working with data sources	                          Creating RESTful services from data
+Implementation	  Requires custom repositories and queries	          Automatically exposes repositories
+Control	          You have full control over the API	              Limited control; mostly auto generated
+Hypermedia	          Not inherently supported	                              Supports HATEOAS
+
+----------------------------------------------------------
+
+•	How @Component annotation works?
+o	mark a class as a Spring-managed bean
+o	part of Spring's component scanning mechanism
+o	used for the service layer or some utility/helper classes
+o	Here's how @Component works:
+	Component Scanning – Spring scan package and register classes in the application context as Spring beans
+	Bean Definition - instantiated as a bean and managed in the Spring container
+	Dependency Injection – injected into other Spring components
+•	componentScan annotation
+•	Can we use @Component and @Service annotation in same class?
+o	Not good but that will not throw an error.
+•	What is bean?
+o	Beans = object/POJO that instantiated, configured, and managed by the Spring IoC container
+o	Spring container manages the lifecycle of the beans
+•	Bean lifecycle
+o	refers to the stages a Spring-managed bean goes through from its creation to its destruction
+o	Instantiation: Object is created.
+o	Dependency Injection: Properties are injected.
+o	Aware interfaces: Bean receives Spring-related information (e.g., name, factory).
+o	Pre-Initialization: BeanPostProcessors before initialization logic.
+o	Initialization: Bean is initialized (via @PostConstruct, InitializingBean, or initMethod).
+o	Post-Initialization: BeanPostProcessors after initialization logic.
+o	Bean Ready: Bean is ready for use.
+o	Destruction: Bean is destroyed (via @PreDestroy, DisposableBean, or destroyMethod).
+•	what is the use of beans?
+o	Dependency Injection: Automatically injecting dependencies between components.
+o	Inversion of Control (IoC): Spring manages the lifecycle and configuration of objects.
+o	Business Logic Encapsulation: Beans represent core application components.
+o	Singleton/Prototype Scope: Efficiently managing object creation based on need.
+o	Configuration Management: Beans are used to define and configure the application.
+o	Cross-Cutting Concerns: Managing transactions, security, logging via AOP.
+o	Lifecycle Management: Handling initialization and cleanup operations.
+o	Testability: Supporting modular and easily testable code.
+o	AOP Support: Applying cross-cutting concerns like logging and security.
+•	How to register beans
+o	XML Configuration: Suitable for legacy applications but less common in modern Spring applications.
+o	Java-Based Configuration: Preferred for type safety and better refactoring support.
+o	Component Scanning: Simplifies bean registration by automatically detecting annotated classes.
+o	Dependency Injection: Use @Autowired to wire dependencies.
+o	Multiple Configurations: Use @Import to manage multiple configuration classes.
+•	Bean scopes
+o	It defines how the Spring container manages the lifecycle and the instances of a bean
+o	Several scopes in Spring:
+
+_______________________________________________________________________________
+
+Scope	Description	Lifecycle
+Singleton	Single instance per Spring container (default).	Created when the container starts, destroyed when it shuts down.
+Prototype	New instance for each request.	Created and discarded after each request.
+Request	Single instance per HTTP request.	Created and destroyed with each HTTP request.
+Session	Single instance per HTTP session.	Created and destroyed with the HTTP session.
+GlobalSession	Single instance per global HTTP session (used in portlets).	Created and destroyed with the global session.
+Application	Single instance per ServletContext (used in web applications).	Exists for the entire lifecycle of the ServletContext.
+
+•	
+•	
+•	Difference between request and prototype scope bean?
+Feature	Request Scope Bean	Prototype Scope Bean
+Lifecycle	Created for each HTTP request; destroyed after the request	Created every time it is requested; not managed by the container post-creation
+Use Case	Web applications needing request-specific data	When a new instance is needed for every request, regardless of context
+Visibility	Only available during the current request	Available to any component that requests it
+Container Management	Fully managed for the duration of the request	Not fully managed after instantiation
+o	Summary of Differences
+
+
+
+
+____________________
+•	What is RestTemplate, WebClient in detail?
+o	Use RestTemplate:
+	For simple, blocking applications that require minimal HTTP interaction.
+	If you do not need reactive programming.
+o	Use WebClient:
+	For applications that require reactive programming and high concurrency.
+	When you need non-blocking I/O and support for streaming.
+o	Use OpenFeign:
+	When you want a declarative way to create HTTP clients with minimal boilerplate.
+	If you are already using Spring Cloud and need service discovery and load balancing features.
+o	Comparison of RestTemplate, WebClient, and OpenFeign
+Feature	RestTemplate	WebClient	OpenFeign
+Synchronous/Asynchronous	Synchronous	Asynchronous (supports both)	Synchronous
+Usage Context	Simple applications	Reactive applications	Declarative HTTP clients
+Error Handling	Built-in error handling	More control over error handling	Customizable error handling
+Streaming Support	Limited streaming support	Full support for streaming	Limited, depending on the underlying HTTP client
+Configuration	Manual configuration	Fluent API	Declarative interface
+Complexity	Simple and straightforward	More complex, but powerful	Reduces boilerplate code
+
+•	How to mock private methods?
+o	Not directly supported
+o	Other ways:
+	Best practice: Refactor your code to avoid the need to mock private methods.
+	Reflection: Can be used, but not recommended due to poor maintainability.
+	PowerMockito: Allows you to mock private methods but should be used sparingly in legacy code or edge cases.
+	JMockit: Another tool for mocking private methods but is less common.
+•	How unit test works?
+o	Unit testing works by isolating small units of code and testing them independently of the rest of the application.
+•	mock and injectmocks
+o	@Mock: Creates mock objects that simulate real objects’ behavior.
+o	@InjectMocks: Injects those mock objects into the class you are testing
+•	Inject / autowired
+•	Difference between @Autowired and new initialization?
+o	@Autowired - provides DI, promotes loose coupling & easier testing, Lifecycle Management, Scope Management, and Spring’s configuration features.
+o	Manual Initialization (new) – Tightly coupling, No Lifecycle Management, No Scope Control, no Spring’s configuration features
+•	qualifier, future annotation
+•	Types of autowiring and how will it define
+o	Types of autowiring: no, byType, byName, constructor, and autodetect.
+o	Autowiring helps reduce boilerplate code and makes dependency management easier.
+o	Modern Spring applications use annotation-based configuration (@Autowired, @Qualifier, @Primary) to handle dependency injection.
+•	Dependency injection
+o	Dependency Injection (DI) is a design pattern used to achieve loose coupling by injecting required dependencies from outside the class rather than creating them internally.
+o	There are three main types of DI: constructor injection, setter injection, and field injection.
+o	Spring is a popular framework that uses DI to manage dependencies among classes and their lifecycle.
+o	DI improves testability, maintainability, and reusability of code while promoting separation of concerns.
+•	IOC
+o	Inversion of Control (IoC) is a design principle where the control of creating and managing dependencies is inverted to an external container, allowing for more modular, testable, and loosely coupled code.
+o	Spring uses IoC to manage beans (objects) and inject dependencies through Dependency Injection (DI).
+o	IoC improves maintainability, testability, and reusability of code by decoupling dependencies from classes.
+•	Difference Between IoC and Dependency Injection
+o	IoC is a general concept, where the control of how objects are created and how they depend on each other is inverted from the objects themselves to an external container or framework.
+o	Dependency Injection is a specific technique used to achieve IoC by injecting dependencies into objects, either through constructor injection, setter injection, or field injection.
+•	Spring initializers
+o	Spring Initializr: A tool to quickly generate Spring Boot projects.
+o	ApplicationContextInitializer: Used to initialize or modify the Spring application context before it is refreshed.
+o	CommandLineRunner and ApplicationRunner: Interfaces that allow running specific logic after the application startup.
+o	ServletContextInitializer: Programmatically configure servlet-related components.
+o	EnvironmentPostProcessor: Allows modification of the Spring environment before the application starts.
+•	Spring starter
+o	Spring Boot Starters are pre-configured dependencies that simplify adding commonly used features and libraries to your Spring Boot application.
+•	Spring boot actuator
+o	Spring Boot Actuator adds useful production-ready features such as health checks, metrics, auditing, and more.
+o	Actuator provides a variety of endpoints to monitor and manage your Spring Boot application.
+o	The most common endpoints are /actuator/health, /actuator/info, /actuator/metrics, and /actuator/env.
+o	You can customize which endpoints are exposed and secure them using Spring Security.
+o	Actuator can also be extended by creating custom endpoints and integrated with external monitoring systems like Prometheus, Grafana, Datadog, and more.
+•	Difference between service, repo and controller class
+o	Controller: handle HTTP request/response, presentation layer
+o	Service: business logic, business logic layer
+o	Repository: interact with database, data access layer
+•	How to define DB properties? How to configure DB properties in spring
+o	Database properties are configured in application.properties or application.yml.
+o	You define the JDBC URL, database username, password, and other options such as the Hibernate dialect and DDL strategy.
+o	Spring Boot auto-configures the DataSource based on these properties and creates the necessary beans for interacting with the database.
+o	You can customize these properties, add multiple data sources, or use profiles for different environments.
+•	Rest API annotations
+o	RestController, Controller, RequestMapping, GetMapping, …. etc
+•	Thymeleaf
+o	Thymeleaf is a server-side Java templating engine for building dynamic web pages.
+o	It integrates seamlessly with Spring Boot and Spring MVC, allowing developers to easily pass model data to HTML templates.
+o	Thymeleaf provides a range of features, such as expression language, iteration, conditional rendering, and form binding.
+o	It supports modular templates through fragments and layouts, and can be configured through application.properties or application.yml.
+•	Use of @PostConstuct
+o	@PostConstruct is used to execute a method after dependency injection but before the bean is available for use.
+o	It is often used to perform initialization tasks such as setting up connections, configuring resources, or running checks after bean properties are set.
+o	It is part of the bean lifecycle management in Spring and offers a clean and declarative way to manage initialization logic.
+•	transactions in Spring boot
+o	Declarative Transaction Management: Use the @Transactional annotation to manage transactions easily.
+o	Atomicity and Consistency: Transactions ensure that a series of operations either complete successfully or are rolled back.
+o	Flexible Configuration: You can customize transaction behavior, including propagation and isolation levels, as needed.
+•	how to implement atomicity in spring boot
+o	Use @Transactional: Mark service methods with @Transactional to ensure operations are atomic.
+o	Rollback on Exceptions: By default, transactions will roll back on unchecked exceptions (subclasses of RuntimeException). You can customize this with the ‘rollbackFor’ attribute.
+o	Nested Transactions: You can manage complex transactions using different propagation settings but be mindful of how they interact.
+•	Define custom annotation
+o	Creating a Custom Annotation: Define it using the @interface keyword, specifying retention policy and target.
+o	Using the Annotation: Apply it to methods, classes, or fields as needed.
+o	Processing the Annotation: Use reflection to read the annotation and implement any necessary logic.
+•	Spring AOP
+o	To separate cross-cutting concerns from your business logic
+o	Key Concepts:
+	Aspect
+	Join Point
+	Pointcut
+	Advice
+•	Before, After, After Returning, After Throwing, Around
+	Weaving
+o	Separation of Concerns: AOP helps separate cross-cutting concerns from the business logic, improving code readability and maintainability.
+o	Flexible Pointcut Expressions: You can define complex pointcuts to target specific methods, classes, or packages.
+o	Multiple Advice Types: AOP allows you to run code before, after, or around method executions.
+•	Which properties need to configure to deploy applications
+•	replicate the behavior in mockito- use when
+•	how to test autowired components
+•	how to print binary tree - approach only
+•	precedence in application.properties
+•	use of profiles- real time example (db conn)
+•	how to delay the injection of beans- @lazy
+•	connection pooling in java
+•	Hibernate
+
+
