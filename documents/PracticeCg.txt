@@ -905,3 +905,345 @@ Using Streams API, Collections, Priority Queue, Treeset
 Using Streams APi, StringBuilder, StringBuffer, native for loop, recursion, two-point array swap etc
 -------***------
 
+Java
+•	Reactive programming in Java
+•	abstract interface and class
+Feature	Abstract Class	Interface
+Instantiation	Cannot be instantiated directly.	Cannot be instantiated directly.
+Methods	Can have both abstract and concrete methods.	Can only have abstract methods (except default and static methods).
+Constructor	Can have constructors.	Cannot have constructors.
+State	Can have instance variables (fields).	Cannot have instance variables (only constants).
+Multiple Inheritance	Can only extend one class (single inheritance).	A class can implement multiple interfaces.
+Default Methods	Cannot have default methods (before Java 8).	Can have default and static methods (Java 8+).
+Access Modifiers	Methods can have various access modifiers (e.g., protected, private).	All methods are public by default (except static methods).
+Use Case	When you need a base class with default behavior and common functionality.	When you need to define a contract or a common set of capabilities across unrelated classes.
+o	Key Differences Between Abstract Class and Interface
+o	
+•	can we add constructor in abstract class and interface?
+•	Use of static (Nested) class?
+o	Grouping Related Classes, Encapsulation, Accessing Static Members, Improved Readability, Reduction of Namespace Pollution
+•	Can we override static methods?
+o	NO, we can overload them.
+•	Java memory types with example 
+o	Heap
+	Dynamic memory – Store objects
+o	Stack
+	Static memory - Store primitive data types, called method frame and reference to objects in heap.
+o	Method area
+	Shared memory area – Stores runtime constant pool, field, and method data, and the code for methods and constructors.
+o	PC (Program counter) Register
+	Address of the JVM instruction currently being executed.
+o	Native method stack
+	Native methods written in other languages than Java.
+•	what is abstract data?
+o	Separates its abstract properties and behaviours from its concrete implementation details.
+o	Abstract Data Types (ADTs)
+	The type of data stored.
+	The operations that can be performed on the data.
+	The semantics of these operations.
+o	Examples: Stack, Queue, List, Set and Map
+o	Benefits:
+	Modularity
+	Maintainability
+	Reusability
+	Abstraction
+•	Java 8 features
+o	Lambda expression (anonymous methods/functions)
+o	Functional interface (SAM)
+o	Stream APIs
+o	Default methods
+o	Optional
+o	New Date and Time API
+•	Java 17 features
+o	Sealed classes
+o	Record
+o	New pattern matching for instanceof
+o	Enhanced switch statement
+o	Text block
+•	Built in functional interface:
+o	Predicate -> Boolean test (T t)
+o	Supplier -> R get ()
+o	Consumer -> void accept (T t)
+o	Function -> R apply (T t)
+o	BiFunction -> R apply (T t, U u)
+o	UnaryOperator -> T apply (T t) -> return same type as argument
+o	BinaryOperator -> T apply (T t, T1 t) -> return same type as argument
+•	Intermediary operation?
+o	Filter, map, distinct, sorted, peek, flatMap
+•	can we extend functional interface into another functional interface?
+o	NO
+•	What is default and static method in interface?
+o	Default method – to provide default implementation
+o	Static method – it can be accessible through Interface instead of instance
+•	how much lambda and functional interface tightly coupled?
+o	Yes, too much for lambda
+	Direct Dependency
+	Type Inference
+	Implementation of Abstract Methods
+	Functional Programming Features
+	Expressiveness and Readability
+o	We can implement functional interface without lambda, using class/anonymous-inner-class but not lambda.
+•	Method reference
+o	Static method
+	ClassName::methodName -> Integer::parseInt
+o	Instance Method of a Particular Object
+	object::methodName -> str::length
+o	Instance Method of an Arbitrary Object of a Particular Type
+	ClassName::methodName -> System.out::println
+o	Constructor
+	ClassName::new -> Person::new
+•	Record
+o	Reduce boilerplate code
+o	Immutability
+o	Auto generated methods [toString(), equals() and hashCode()]
+•	Use of var keywords in java 17
+o	Dynamic variable type……variable type depends on value assign to it
+•	Dynamic binding
+o	known as late binding
+o	Key Concepts:
+	Polymorphism
+	Method Overriding
+	Virtual Methods
+o	Advantages:
+	Flexibility
+	Extensibility
+	Runtime Polymorphism
+o	Disadvantages
+	Performance Overhead
+	Complexity
+	Less Predictability
+•	Object cloning
+o	Shallow cloning
+o	Deep cloning
+•	Avoid memory leak
+o	Try with resources (also use stream()) 
+	try (Stream<String> lines = Files.lines(path)) {}
+•	how to define generic in java
+o	Generic class <T>
+o	Generic method <T>
+o	Bound type parameter <T extends Number>
+o	Generic interface
+o	WildCards
+	Unbound wildcard <?>
+	Upper-Bounded Wildcards <? extends Number>
+	Lower-Bounded Wildcards <? super Integer>
+•	Immutable class in detail
+o	No setter
+o	Private and final fields
+o	Init through constructor
+o	No mutable object exposed (Defensive copy)
+•	ways to make a class/method thread safe(deeper knowledge of multithreading, race condition)
+•	callable and runnable interfaces in thread
+•	Multi Thread
+o	To perform tasks concurrently
+o	Advantages:
+	Responsiveness
+	Resource Sharing
+	Performance
+o	Challenges:
+	Synchronization
+	Deadlocks
+	Complexity
+o	Common Threading Models:
+	Pre-emptive Multitasking – OS decides when to switch between threads
+	Cooperative Multitasking - Threads yield control voluntarily
+•	What is Deadlock, Live-lock and Starvation?
+o	Deadlock: Threads are waiting indefinitely for each other to release resources.
+o	Live-lock: Threads are actively changing states in response to each other but make no progress.
+o	Starvation: A thread is perpetually denied resources, usually due to resource allocation policies favouring other threads.
+o	Prevention and Handling:
+	Deadlock Prevention: Use techniques such as resource ordering, timeouts, or avoiding circular waits.
+	Live-lock Management: Implement backoff strategies or randomized waits to break the cycle of interference.
+	Starvation Prevention: Use fair scheduling algorithms, like those provided by the Java ReentrantLock class with fairness policies.
+
+•	Differentiate between the Thread class and Runnable interface for creating a Thread? 
+o	Inheritance
+o	Separation of Concerns
+o	Flexibility
+o	Resource Management
+•	What is context switching? provide example in java 
+o	Process of storing the state of a currently running thread or process so that it can be resumed later
+o	Thread sleep helps to achieve this feature
+•	Volatile keyword
+o	Modified value visible to all threads
+•	wait vs sleep in thread
+Feature	wait()	sleep()
+Purpose	Inter-thread communication	Pause execution of current thread
+Class	Object	Thread
+Lock Release	Releases lock	Does not release lock
+Wake Up	Wakes up when notify() or notifyAll() is called	Automatically after specified duration
+Synchronization	Must be called within a synchronized block or method	Can be called from any context
+Exception	Throws InterruptedException	Throws InterruptedException
+
+•	Thread Lifecycle
+o	New
+o	Runnable
+o	Running
+o	Waiting/Blocked
+o	Terminated
+•	Join () in thread
+o	To pause the execution of the current thread until join-thread ends
+•	How to solve a deadlock condition? 
+o	Avoid Nested Locks
+o	Use Try-Lock
+o	Timeout Locks
+o	Deadlock Detection
+o	Lock Ordering
+o	Single Lock
+
+•	Executor service
+o	part of the java.util.concurrent package
+o	Key Features:
+	Thread Management
+	Task Submission
+	Task Completion
+	Graceful Shutdown
+•	future and completableFuture - timeout
+•	What is the synchronization?
+o	Two or more concurrent threads do not simultaneously execute some code segment known as a critical section
+o	Method-Level Synchronization
+o	Block-Level Synchronization
+•	Why Synchronization is Important?
+o	Thread Interference
+o	Memory Consistency Errors
+•	Drawbacks of Synchronization
+o	Performance Overhead
+o	Deadlock
+o	Reduced Concurrency
+•	Comparable
+o	Natural ordering
+•	Comparator
+o	Custom ordering
+•	Serialization
+o	Serialization: Converting an object into a byte stream.
+o	Deserialization: Converting a byte stream back into an object.
+o	Serializable Interface: A marker interface to signal that a class can be serialized.
+o	Custom Serialization: Using writeObject and readObject methods to customize serialization.
+o	Transient Fields: Fields marked as transient are not serialized.
+o	serialVersionUID: A unique identifier for a serializable class to ensure compatibility during deserialization.
+•	Internal working of ConcurrentHashMap
+o	Thread safety
+o	No null keys/values
+o	Segments (Java 7 and earlier)
+o	Array of Node or TreeNode (Java 8+)
+	CAS – Compare and Swap
+o	High Concurrency
+o	Memory Overhead
+•	Internal working of Set/HashMap
+o	Stored in hash table
+o	Hash code from content
+o	Bucket index from hash code
+o	Resize if 75% full
+•	hashing- equals and hashcode method, hash collision
+•	Hash code collision in java HashMap internal working
+o	Collision handling: HashMap uses separate chaining (linked list) for collisions and converts to a tree if needed.
+o	equals (): The equals () method helps distinguish between different objects with the same hash code.
+o	Resizing: To reduce the number of collisions, HashMap resizes when the load factor is exceeded.
+o	Performance: Lookup in a linked list has O (n) complexity, but with Java 8’s tree implementation, it can be reduced to O (log n) in case of heavy collisions.
+•	How TreeMap sort data.... explain internal of it
+o	Backed by a Red-Black Tree (log (n) for insertion, deletion and search)
+o	Key Properties:
+	Binary Search Tree (maintain key -> small = left & big = right)
+	Balancing (hight max to 2*log(n))
+	Colouring and Rotation
+o	Sorting:
+	Comparable (natural order)
+	Comparator (custom order)
+o	Insertion:
+	Compare the key, Find correct position, Insert the node, Rebalance the tree
+o	Search:
+	Compare the key, move to left/right, found or reach at leaf node
+o	Deletion:
+	Find the node, Rebalancing, Rebalancing keeps O (log n)
+•	Internal working of marker interface
+o	Uses ‘instanceof’
+o	Type safety
+o	Polymorphism
+o	Clean intent
+o	Simpler implementation
+•	Internal working of collections
+o	ArrayList
+	Uses a dynamic array for storing elements, offering fast access but potentially expensive inserts/deletes due to resizing and shifting.
+o	LinkedList
+	Uses a doubly linked list, offering fast inserts/deletes at the beginning or end, but slower access times.
+o	HashMap
+	Uses a hash table with linked lists or balanced trees for collision handling, offering fast access, insert, and delete operations.
+o	TreeSet
+	Uses a Red-Black Tree, ensuring elements are sorted and providing fast search, insert, and delete operations.
+o	HashSet
+	Backed by HashMap, offering fast insertion and lookup without duplicates.
+
+o	PriorityQueue
+	Uses a binary heap for maintaining a priority order, providing efficient access to the minimum or maximum element.
+
+•	Fail fast vs Fail safe in java
+o	Fail-Fast:
+	Iterators throw ConcurrentModificationException on structural modification.
+	Designed to prevent inconsistent or unexpected behaviour.
+	Examples: ArrayList, HashMap.
+o	Fail-Safe:
+	Iterators do not throw exceptions on structural modification.
+	Operate on a copy of the collection, meaning changes during iteration won’t be reflected.
+	Examples: CopyOnWriteArrayList, ConcurrentHashMap.
+•	String internals & its memory management
+o	Immutable
+o	String pool (part of heap)
+o	Intern ()
+•	Why String is immutable
+o	String immutability in Java offers security, performance optimizations, thread safety, and simplicity in handling strings.
+•	List
+o	ArrayList – O (1)
+	Dynamic array
+	Fast random access
+o	LinkedList – O (n)
+	Doubly linked list
+	Frequent insertion and deletion
+o	Vector – O (1)
+	Dynamic array
+	Thread safety
+o	Stack - O (1)
+	Extends vector and implement LIFO stack
+	When LIFO needed
+•	Set
+o	HashSet – O (1)
+	Hash Table
+	Uniqueness and fast access
+o	LinkedHashSet – O (1)
+	Hash Table with Linked list
+	Uniqueness and insertion order
+o	TreeSet – O (log n)
+	Red-black tree
+	Uniqueness and natural/custom order
+
+•	Map
+o	HashMap – O (1)
+	Hash table
+	Fast access
+o	LinkedHashMap – O (1)
+	Hash table with doubly linked list
+	Predictable Insertion order
+o	TreeMap – O (log n)
+	Red-black tree
+	Sorted keys
+o	HashTable – O (1)
+	Hash table
+	Thread safety
+o	ConcurrentHashMap – O (1)
+	Hash table with finer-grained locking
+	Thread safety with high performance
+•	Queue
+o	LinkedList – O (1)
+	Doubly linked list
+	Simple queue is needed
+o	PriorityQueue – O (log n)
+	Binary heap
+	Priority based queue
+o	ArrayDeque – O (1)
+	Resizable array
+	Better than LinkedList
+•	Array-based collections (like ArrayList, Vector, ArrayDeque) store elements in contiguous memory blocks. They are efficient for random access but require resizing and copying when the array grows.
+•	Linked-based collections (like LinkedList, HashSet, LinkedHashSet) store elements in nodes with references to other nodes, which allows for efficient insertions and deletions but less efficient random access.
+•	Tree-based collections (like TreeSet, TreeMap) store elements in a hierarchical structure (Red-Black tree) that ensures order and balanced operations but with higher overhead compared to hash-based collections.
+•	Hash-based collections (like HashMap, HashSet, ConcurrentHashMap) use a hash table to store elements, offering average O (1) access time. They handle collisions through linked lists or trees within each bucket. They may consume more memory due to the need for handling collisions and maintaining load factors.
+•	for loop and stream API difference
+•	handle exception in streams
