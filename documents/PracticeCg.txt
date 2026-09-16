@@ -1247,3 +1247,44 @@ o	ArrayDeque – O (1)
 •	Hash-based collections (like HashMap, HashSet, ConcurrentHashMap) use a hash table to store elements, offering average O (1) access time. They handle collisions through linked lists or trees within each bucket. They may consume more memory due to the need for handling collisions and maintaining load factors.
 •	for loop and stream API difference
 •	handle exception in streams
+
+
+________________________________________________________
+
+ Coding Questions
+•	reverse the letters in a string without reversing the words
+•	only 1 object occurs once in a list, print that with the help of streams
+•	Longest substring without repeating chars
+•	print name and count of employees working in each dept. using streams
+•	2d array spiral traversal
+
+What is the issue in the below code? How can we break such issues in Spring Boot?
+@Component 
+class A {
+  @Autowired
+  private B obj B;
+}
+
+@Component 
+class B {
+  @Autowired
+  private A obj A;
+}
+ 
+Two microservices (MS1, MS2) are running.
+MS1 -----> hitting the DB multiple time, like 1000 times in an hour, and doing write operations.
+MS2 -----> hitting the DB few times, like 2-3 times in an hour, and also doing write operations.
+In which scenario, you would like to implement JPA and why?
+In which scenario, you would like to implement JdbcTemplate and why?
+
+
+Write code for finding first non-repeated character from above string?
+
+Write a Java program using Threads to print ODD and Even numbers & explain each line of code (One thread to print ODD and other thread to print Even Numbers)
+
+String arr[] = { "abcd", "java", "dcba", "ajav", "xyz", "epam", "pame", "aepm" }
+ 
+O/P: [epam, pame, aepm] contains same character
+ 
+ 
+
