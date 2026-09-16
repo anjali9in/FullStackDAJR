@@ -1,0 +1,78 @@
+DB
+•	How we can reduce the time complexity of SQL queries 
+o	Indexing
+o	Optimize query
+o	Join optimization
+o	Use subquery and temporary tables
+o	Use efficient tables
+o	Limiting results
+o	Normalization and Denormalization
+o	Query caching
+o	Analyse and Optimize Execution Plans
+o	Partitioning
+•	How to optimize SQL query?
+o	Choose Appropriate Indexes
+o	Optimize Joins
+o	Use Efficient WHERE Clauses
+o	Select Only Necessary Columns
+o	Limit the Number of Rows Returned
+o	Optimize Subqueries
+o	Avoid Using DISTINCT and GROUP BY Unnecessarily
+o	Analyse Query Execution Plans
+o	Consider Database Design
+o	Use Caching
+o	Tune Database Configuration
+o	Optimize Data Types
+o	Batch Processing
+o	Regular Maintenance
+•	Normalization
+o	reduce redundancy and improve data integrity
+•	Store procedure vs function
+o	Stored Procedures: Best for executing complex operations and managing transactions; do not return a value directly.
+o	Functions: Best for returning calculated values or datasets; must return a value and cannot change the database state.
+•	Difference between SQL and No-SQL provide advantages and disadvantages
+o	NoSQL databases are generally faster for both read and write operations, especially under heavy load and with large volumes of unstructured data.
+	Advantages: Scalability, Flexibility, Performance, Variety of Data Models 
+	Disadvantages: Lack of Standardization, Consistency, Limited Query Capabilities, Maturity
+o	SQL databases can outperform NoSQL in scenarios involving complex queries or when strong data integrity is essential, but they may lag in raw speed for simple operations.
+	Advantages: Structured Data, ACID Compliance, Complex Queries, Mature Ecosystem
+	Disadvantages: Scalability, Schema Rigidity, Performance
+•	Indexing
+o	database optimization technique used to improve the speed of data retrieval
+o	Advantages: Faster Data Retrieval, Improved Query Performance, Efficient Sorting
+o	Disadvantages: Storage Overhead, Slower Write Operations, Maintenance
+•	PL-SQL
+o	Procedural SQL (Structured Query Language)
+o	Function, Procedure, Trigger, Cursor
+•	Transaction
+o	Set of operations used to perform a logical unit of work
+o	It generally represents change in DB (Read and Write)
+o	It will be performed under RAM then at end it will be written in DB
+•	ACID properties (of transaction)
+o	Atomicity – Either all or none operation
+o	Consistency – Before and after transaction, sum of money should be same
+o	Isolation – Convert parallel schedule into serial schedule
+	Conflict serializability
+	View serializability
+o	Durability – Permanent changes in DB
+•	Transaction states
+o	Active, Partial Committed, Committed, Terminated
+o	Active | Partial Committed, Failed, Abort/Kill/Restart, Terminated
+•	Serializability
+o	Conflict serializability (No Loops in operations)
+o	View serializability (Loops in operations)
+•	Shared Exclusive Locking
+o	Shared (S) – allow read only
+o	Exclusive (X) – allow read and write both
+•	2 Phase Locking (2PL) protocol
+o	Growing – Acquired but no lock released
+o	Shrinking – Release but no lock acquired
+•	2PL
+o	Strict 2PL
+	Exclusive lock hold until commit/abort
+o	Rigorous 2PL
+	Shared & Exclusive lock hold until commit/abort
+o	Conservative 2PL
+	Lock all resource on a task starting (to reduce starvation and deadlock issue)
+•	Time Stamp ordering protocol
+o	Unique, Order, RTS, WTS
