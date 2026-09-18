@@ -1,0 +1,165 @@
+# --------------------------------------------------------
+# Microservices Interview Walkthrough (Production YAML)
+# --------------------------------------------------------
+# 1) Start registry: SPRING_PROFILES_ACTIVE=service-registry,prod
+# 2) Start auth server or IdP and set OAUTH_ISSUER_URI
+# 3) Start business services: SPRING_PROFILES_ACTIVE=resource-server,prod
+# 4) Start gateway: SPRING_PROFILES_ACTIVE=gateway,prod
+# 5) Verify load balancing with multiple service instances
+# 6) Stop one instance to demonstrate circuit breaker transitions
+# 7) Validate OAuth2 token flow through gateway to resource services
+# 8) Optional centralized config: SPRING_PROFILES_ACTIVE=cloud-config,prod
+
+application:
+  env: prod
+
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  config:
+    # Free secret storage option: Docker/Kubernetes mounted secrets
+    # Filenames become keys, file contents become values.
+    import: optional:configtree:/run/secrets/,optional:configtree:/etc/secrets/
+  application:
+    name: ${SPRING_APPLICATION_NAME:fullstackdajr-service}
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/fullstackdajr}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:change-me}
+  jpa:
+    defer-datasource-initialization: true
+  cloud:
+    discovery:
+      enabled: true
+    loadbalancer:
+      retry:
+        enabled: true
+
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,circuitbreakers,circuitbreakerevents
+
+logging:
+  level:
+    root: warn
+
+---
+spring:
+  config:
+    activate:
+      on-profile: gateway
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+
+server:
+  port: ${GATEWAY_PORT:8080}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: service-registry
+
+server:
+  port: ${REGISTRY_PORT:8761}
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: resource-server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH_ISSUER_URI:http://localhost:9000}
+---
+spring:
+  config:
+    activate:
+      on-profile: oauth-client
+  security:
+    oauth2:
+      client:
+        registration:
+          interview-client:
+            client-id: ${OAUTH_CLIENT_ID:interview-client}
+            client-secret: ${OAUTH_CLIENT_SECRET:interview-secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+        provider:
+          interview-client:
+            issuer-uri: ${OAUTH_ISSUER_URI:http://localhost:9000}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cloud-config
+    # Free centralized config option: self-hosted Spring Cloud Config Server
+    import: optional:configtree:/run/secrets/,optional:configtree:/etc/secrets/,optional:configserver:${CONFIG_SERVER_URI:http://localhost:8888}
+  cloud:
+    config:
+      enabled: true
+      uri: ${CONFIG_SERVER_URI:http://localhost:8888}
+      name: ${SPRING_APPLICATION_NAME:fullstackdajr-service}
+      profile: ${CONFIG_PROFILE:prod}
+      label: ${CONFIG_LABEL:main}
+      username: ${CONFIG_SERVER_USERNAME:}
+      password: ${CONFIG_SERVER_PASSWORD:}
+      fail-fast: false
+      retry:
+        max-attempts: 6
+        initial-interval: 1000
+        multiplier: 1.3
