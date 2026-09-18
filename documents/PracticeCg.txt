@@ -1,0 +1,1290 @@
+1) print helloworld 10 times.
+---------------------------------------------
+2) print the 3rd highest from array.
+
+public static int thirdHighest(int[] arr) {
+    return Arrays.stream(arr)
+            .distinct()
+            .boxed()
+            .sorted(Comparator.reverseOrder())
+            .skip(2)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Less than 3 distinct elements"));
+}
+---------------------
+int[] arr = {10, 20, 40, 30, 50, 40};
+
+Integer first = null, second = null, third = null;
+
+for (int num : arr) {
+
+    if (first == null || num > first) {
+        third = second;
+        second = first;
+        first = num;
+    } else if (num != first && (second == null || num > second)) {
+        third = second;
+        second = num;
+    } else if (num != first && num != second &&
+              (third == null || num > third)) {
+        third = num;
+    }
+}
+
+System.out.println("3rd Highest = " + third);
+-------------------------
+3) reverse a given string. i/p="Capgemini"
+ 
+String str = "Capgemini";
+String reversed = new StringBuilder(str)
+        .reverse()
+        .toString();
+System.out.println(reversed);
+------------------------
+String str = "Capgemini";
+String reversed = "";
+
+for (int i = str.length() - 1; i >= 0; i--) {
+    reversed += str.charAt(i);
+}
+System.out.println(reversed);
+------------------------------------
+String str = "Capgemini";
+String reversed = IntStream.range(0, str.length())
+        .mapToObj(i -> String.valueOf(str.charAt(str.length() - 1 - i)))
+        .collect(Collectors.joining());
+
+System.out.println(reversed);
+-----------------------------------------------
+4) write a code to find missing number in Integer List
+    Test cases :
+       a) 1,2,3,4,5,7,8,9,10
+       b)2,4,6,10,12,14,16,18,20
+       c)1,3,5,9,11,13,15,17
+import java.util.*;
+public class MissingNumberFinder {
+    public static Integer findMissingNumber(List<Integer> list) {
+        if (list == null || list.size() < 2) {
+            return null;
+        }
+        // Find the common difference (minimum gap)
+        int diff = Integer.MAX_VALUE;
+        for (int i = 1; i < list.size(); i++) {
+            diff = Math.min(diff, list.get(i) - list.get(i - 1));
+        }
+
+        // Find the missing element
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i) - list.get(i - 1) != diff) {
+                return list.get(i - 1) + diff;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> a = Arrays.asList(1,2,3,4,5,7,8,9,10);
+        System.out.println("a -> " + findMissingNumber(a));
+    }
+}
+---------------------------------
+5) Write a program to get the occurrence of a specific letter in a given String.
+   i/p="Hello"
+   i/p=l  o/p=2
+public class LetterOccurrence {
+    public static void main(String[] args) {
+        String str = "Hello";
+        char ch = 'l';
+        long count = str.chars().filter(c -> c == ch).count();
+        System.out.println("Occurrence of '" + ch + "' = " + count);
+    }
+}
+public class LetterOccurrence {
+    public static void main(String[] args) {
+        String str = "Hello";
+        char ch = 'l';
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ch) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+}
+
+public static int getOccurrence(String str, char ch) {
+    int count = 0;
+    for (char c : str.toCharArray()) {
+        if (c == ch) {
+            count++;
+        }
+    }
+    return count;
+}
+-----------------------------------------------------------------------------
+6) Write a java program for palindrome in normal way as well as using Command line arguments.
+  i/p="MADAM"
+  o/p MADAM is a Palindrome
+public class Palindrome {
+    public static void main(String[] args) {
+        String str = "MADAM";  // args[0];
+        String reverse = "";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reverse += str.charAt(i);
+        }
+        if (str.equals(reverse)) {
+            System.out.println(str + " is a Palindrome");
+        } else {
+            System.out.println(str + " is not a Palindrome");
+        }
+    }
+}
+javac Palindrome.java
+java Palindrome MADAM
+--------------------------------
+7) Write a program to sort a given list of intergers in ascending order
+  i/p list={2,4,0,1,56,23,4}
+  o/p list={0,1,2,4,4,23,56}
+//tim sort
+List<Integer> list = Arrays.asList(2, 4, 0, 1, 56, 23, 4);
+Collections.sort(list);
+--------------
+import java.util.Arrays;
+public class QuickSortExample {
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivot = partition(arr, low, high);
+            quickSort(arr, low, pivot - 1);
+            quickSort(arr, pivot + 1, high);
+        }
+    }
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return i + 1;
+    }
+    public static void main(String[] args) {
+        int[] arr = {2, 4, 0, 1, 56, 23, 4};
+        quickSort(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
+    }
+}
+--------------------------------
+8) Write a program to check a given number is prime or not
+    i/p n=34
+Boolean isPrime(int num) {
+	if(n<2) return false;
+	if(n==2 || n==3) return true;
+	if(n%2==0) return false; 
+	for(int i=3; i*i<=n; i++) {
+		if(n%i==0) return false;
+	} 
+	return true;
+}
+--------------------------------
+9) write a program to a sort a Array of String in ascending oreder alphabetially
+   i/p String s=["Capgemini","Accenture","TCS","EPAM"]
+   o/p =[Accenture,Capgemini,EPAM,TCS]
+
+         List<String> list = Arrays.asList(s).stream()
+                .sorted()
+                .collect(Collectors.toList());
+--------------------------------
+10) Write a program to check a given number is even or odd
+    i/p n=34
+    o/p = 34 is even number
+if(n%2==0) return "even" else return "false";
+--------------------------------
+11) write a program for fibonacci series;
+0, 1, 1, 2, 3, 5, 8....
+int a = 0, b = 1;
+for (int i = 0; i < n; i++) {
+  System.out.print(a + " ");
+  int next = a + b;
+  a = b;
+  b = next;
+}
+ --------------------------------
+12) write a program to return 2nd largest number from given array
+   i/p=[2,3,5,6,1,0]
+   o/p=6
+
+Arrays.stream(arr)
+            .distinct()
+            .boxed()
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .findFirst()
+-------------------------------------------------------------------------
+13) Write a program to implement the default method in a Fuctional interface and override it.
+
+interface Abc {
+	String test();
+	String testDefault() {
+		return "Default";
+	}
+}
+class Imp implements Abc {
+	String test () {	
+		return "test";
+	}
+  String testDefault() {
+		return "Default imp";
+	}
+}
+class Main {
+  psvm() {
+    Abc b = new Imp();
+    b.testDefault();
+  }
+}
+-------------------------------------------------------------------------
+14) write a program to Count the number of alphabets in a given sentence
+ 
+    i/p="Capgemini"
+ 
+    o/p = {C-1,a-1,p-1,g-1,e-1,m-1,i-2,n-1}
+
+ String str = "Capgemini";
+      Map<Character, Long> map = str.chars()
+      .mapToObj(n -> (char) n)
+	.sort()
+      .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+-------------------------------------------------------------------------
+15) Write a program to store the List of prime numbers in a arrayList and print it.
+List<Integer> list = Arrays.asList(1, 3, 4, 5, 6);
+List<Integer> filteredList = list.stream().filter(n -> n%2== 0).toList();
+-------------------------------------------------------------------------
+16) Write a program to create POJO class of Product (Product Id, ProductName) and Store all values in any collection and Sort that values by ProductName in ascending order
+class Product {
+	String productid;
+	String productName;
+
+	Product(String productid, String productName) {
+		this.productid= productid;
+		this.productName = productName;
+	}
+}
+ List<Product> list = Arrays.asList(
+        new Product("TestId", "Test1"), 
+        new Product("ABC", "Rest"), 
+        new Product("TestId2", "Test2")
+      );
+
+      List<Product> sortedList = list.stream()
+      .sorted(Comparator.comparing(Product::getProductName))
+      .toList();
+
+      System.out.println(sortedList);
+
+----------------
+#to check--
+17)write a program To count number of words in a given sentence.
+i/p "Hello world"
+o/p = 2 words  
+
+int count = str.replaceAll("[^a-zA-Z\\s]", "").trim().split("\\s+").length;
+----------------------------
+18)Write a program to Reverse a string = "Capgemini Training"
+
+__________________________________________________________________________________
+
+
+ 
+19)Write a program count Each vowel frequency in a String(String="capgemini training")
+ 
+
+
+--------------
+20)Create a class having Fields id, name, salary and sort it based on id and name using comparator and comparable
+
+
+
+21) Given a string sentence, count the number of words in it and display count. The words are separated by the following characters: space (‘ ‘) or new line (‘\n’) or tab (‘\t’) or a combination of these.
+ 
+22) write program to check whether a number is palindrome or not and
+ 
+   1) n=101
+ 
+   2) n=22022
+
+
+ 
+ 
+23).Design a Prime Number between 2 to 30.
+ 
+24).Swap 2 numbers without using 3rd variable.
+
+a=5, b=3
+
+a = a+b; //a=8
+b = a-b  //b=5
+a= a-b   //a=3
+-------------------------------------------------------------------------------------------
+ 
+25).Design a program to display magic number, accept a number and check it is a magic number or not.
+ 
+26).Display a L shape * symbol.
+ 
+27).Accept a number , find the reverse of it.
+ 
+28).Write a program to display Pyramid symbol.
+ 
+29).Declare a TreeSet and store the 2 Employee Objects.
+ 
+30).Accept a string line and check how many vowels are there.
+ 
+31).How can you find first non-repeated character in a word.
+ 
+32).How can you check a string can only have alphabets and not digits.
+ 
+33).How to get matching characters in a string.
+ 
+34).How to get non-matching character in a string.
+ 
+35).How do you prove 2 strings are anagrams.44).Find out the count of  occurance of particular character in a string.
+ 
+36).How to verify if 2 strings are rotation mutually.
+ 
+37).How to find out first character of string , which is not repeated.
+ 
+38).How to search a missing numbers in an array, which contains integer from 1 to 100.
+ 
+39).Determine largest and smallest elements of an array , which is not sorted.
+ 
+40).Explain the Bubble Sort algorithm.
+ 
+41).Explain the Merge Sort algorithm.
+ 
+42).How to remove special character in a string that is lowercase.
+ 
+43).what is process of deleting matched element from a LinkedList which is not sorted. // 
+ 
+44).Find out the Fibonacci series between 1 to 30.
+ 
+45).Find out factors of given numbers. n=34
+ 
+46).Write a java program to count number of words in a string using HashMap.
+ 
+47) given a Char array is there {'a','b','a','c'} Find out not duplicate character i.e. 'a'
+ 
+48) Write a program to remove the duplicate elements from a list =[2,3,3,3,65,4,3,3,2]
+ 
+49)Write a Java program to illustrate multiple catch block
+ 
+50)Write a Java program to get the character at the given index within the String
+ 
+51)Write a Java program to get the character (Unicode code point) at the given index within the String
+ 
+52) Write a Java program that checks the letters of the second string are present in the first string. Return true otherwise false.
+ 
+ 
+Input the first string:
+ 
+Java
+ 
+Input the second string:
+ 
+Ja
+ 
+Check first string contains letters from the second string:
+ 
+true
+ 
+ 
+53) Write a Java program that removes a specified word from a given text. Return the new string.
+ 
+ 
+("Exercises Practice Solution", " Solution") -> "Exercises Practice"
+ 
+("Red Green Blue", "Green") -> "Red Blue"
+ 
+("Java Number Exercises”, “Java”) -> "Number Exercises"
+ 
+ 
+54) Write a Java program to remove a specified character from a given string.
+ 
+ 
+ 
+Original string:
+ 
+abcdefabcdeabcdaaa
+
+remove char from given string :  "a"
+
+Second string:
+ 
+bcdefbcdebcd
+ 
+ 
+55) Write a Java program to sort in ascending and descending order by length of the given array of strings.
+ 
+ 
+Original unsorted colors: [Green, White, Black, Pink, Orange, Blue, Champagne, Indigo, Ivory]
+Sorted color (descending order): [Champagne, Orange, Indigo, Green, White, Black, Ivory, Pink, Blue]
+Sorted color (ascending order): [Pink, Blue, Green, White, Black, Ivory, Orange, Indigo, Champagne]
+ 
+ 
+56) Write a Java program to create a new string repeating every character twice of a given string.
+
+   Sample Output: 
+   The given string is: welcome
+   The new string is: wweellccoommee
+
+57) Write a Java program to reverse words in a given string.
+ 
+ 
+Sample Input / Output:
+ 
+ 
+The given string is:= Reverse words in a given string
+ 
+ 
+The new string after reversed the words:= string given a in words Reverse
+ 
+ 
+58) Write a Java program to find the maximum occurring character in a string.
+ 
+ 
+ 
+Sample Output:
+ 
+ 
+The given string is: test string
+ 
+Max occurring character in the given string is: t
+ 
+59) Write a Java program to test if a given string contains the specified sequence of char values.
+ 
+ 
+Sample Output:
+ 
+ 
+Original String: PHP Exercises and Python Exercises                                                           
+ 
+Specified sequence of char values: "and"                                                                        
+ 
+output : true
+
+for(int i=0;  
+ 
+-------------------------------------------------------------------------
+ 
+60) Given an "out" string length 4, such as "<<>>", and a word, return a new string where the word is in the middle of the out string, e.g. "<<word>>". Note: use str.substring(i, j) to extract the String starting at index i and going up to but not including index j.
+ 
+makeOutWord("<<>>", "Yay") → "<<Yay>>"
+makeOutWord("<<>>", "WooHoo") → "<<WooHoo>>"
+makeOutWord("[[]]", "word") → "[[word]]"
+ 
+public String makeOutWord(String out, String word) {
+	return out.substring(0,2)+word+out.substring(2,4);
+}
+ 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+61) Given a string of even length, return the first half. So the string "WooHoo" yields "Woo".
+ 
+firstHalf("WooHoo") → "Woo"
+firstHalf("HelloThere") → "Hello"
+firstHalf("abcdef") → "abc"
+-------------
+ public static String firstHalf(String str) {
+    	return str.substring(0, str.length()/2);
+ }
+---------------
+
+-----**-----
+JAVA 1.8 (Intermediate) coding Questions ---------------------------------------------------------------------- 
+ 
+Q1) Given a list of integers, find out all the even numbers exist in the list using Stream functions? list=[2,34,678,3]
+ 
+Q2) Given a list of integers, find out all the numbers starting with 1 using Stream functions? list=[1,200,11,100]
+ 
+Q3)Print duplicate elements in a given integers list in java using Stream functions? list [1,2,3,3,2,0]
+ 
+Q4) Given the list of integers, find the first element of the list using Stream functions?
+ 
+Q5) Given a list of integers, find the total number of elements present in the list using Stream functions?
+ 
+Q6) Given a list of integers, find the maximum value element present in it using Stream functions? 
+ 
+Q7) Given a String, find the first non-repeated character in it using Stream functions? [A,A,B,C,D,D,E]
+ 
+Q8) Given a String, find the first repeated character in it using Stream functions? [A,A,B,C,D,D,E]
+ 
+Q9) Given a list of integers, sort all the values present in it using Stream functions?
+ 
+Q8) Given a String, find the first repeated character in it using Stream functions?
+ 
+Q9) Given a list of integers, sort all the values present in it using Stream functions?
+ 
+Q10) Given a list of integers, sort all the values present in it in descending order using Stream functions?
+ 
+Q11) Write a Java 8 program to concatenate two Streams?
+ 
+Q12 ) Write a Java 8 program to find the number of Strings in a list whose length is greater than 5?
+ 
+Q13) Explain StringJoiner Class in Java 8? How can we achieve joining multiple Strings
+ 
+using StringJoiner Class?
+ 
+Q14)Find the Word/number got repeated by using Stream api
+ 
+   input:2,3,34,,5,5,4,3,3,3
+ 
+   output:2-1,3-4,34-1,5-2,4-1
+ 
+15) Write a Java Lambda Expression to Create Thread
+ 
+16) How Lambda Expression and Functional Interfaces are Related?
+ 
+17)Given a list of Strings. Convert String to uppercase and Join them with coma (,) using Stream api
+ 
+List=["USA", "Japan", "France", "Germany", "Italy", "U.K.","Canada"]
+ 
+18)Given a list of Integer find square of all distinct numbers By using stream api
+ 
+  list=[9, 10, 3, 4, 7, 3, 4]
+ 
+19)Given a List of Integers find total count, min, max, sum, and the average for numbers by using Stream api
+ 
+input  :list=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+ 
+output: count=10, sum=129, min=2, average=12.900000, max=29
+one
+
+-----**------
+
+1.Create a new thread by using java 8
+2.write a program to create three threads t1,t2,t3 and execute these 3 threads in this sequence
+  t3,
+  t2,
+  t1
+3.list of employees(id,name,age),
+  Calculate sum of those employee salary whose age > 25, using java8 stream
+  null checks by using optional class
+
+4.Student - id, name
+  create 4 objects - sort them in descending order of names
+5.Create a Student(ID,Name) Class as Singleton class which work in multithreaded environment also
+7.Create a Student(ID,Name) Class as immutable class.
+8.Throw a example of ConcurrentModificationException and then fix it by    using below problem
+--- delete odd number from list 2,4,6,7,8
+9.Create a Student Class (id, name) then create one object s1, then create s2 by cloning  of s1
+
+---**----
+
+1) Given a Stream of strings, how would you remove duplicates while preserving the original order?
+
+2) How would you split a list of numbers into two lists using Streams, where one contains all even numbers and the other contains all odd numbers?
+
+3) Can you modify the state of a variable inside a Stream operation? Why is it discouraged?
+Bonus: How would you achieve such behavior safely?
+
+4)How can you merge two Streams into one without duplicates?
+5) Explain how Streams are lazy by nature. Demonstrate this behavior with a code example.
+6) What happens when you call a terminal operation like count() twice on the same Stream?
+
+--------------------------------------------------------------------Coding----------------------------------------------------------------
+
+1. Difference Between map() and flatMap()
+public static void main(String[] args) {
+        List<String> words = Arrays.asList("Java", "Stream", "API");
+        
+        // map(): Transforms each element
+        List<Integer> wordLengths = words.stream()
+                                         .map(String::length)
+                                         .collect(Collectors.toList());
+        System.out.println("Word lengths using map(): " + wordLengths);
+        
+        // flatMap(): Flattens and transforms
+        List<String> letters = words.stream()
+                                    .flatMap(word -> Arrays.stream(word.split("")))
+                                    .collect(Collectors.toList());
+        System.out.println("Letters using flatMap(): " + letters);
+    }
+
+
+2. Find the Second Largest Unique Number
+
+public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(5, 1, 3, 2, 4, 5, 4);
+        
+        Integer secondLargest = numbers.stream()
+                                       .distinct()
+                                       .sorted(Comparator.reverseOrder())
+                                       .skip(1)
+                                       .findFirst()
+                                       .orElse(null);
+        System.out.println("Second Largest: " + secondLargest);
+    }
+
+3. Group Employees by Department and Count
+
+class Employee {
+    String name;
+    String department;
+    
+    public Employee(String name, String department) {
+        this.name = name;
+        this.department = department;
+    }
+}
+
+public class GroupByDepartment {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("Alice", "HR"),
+            new Employee("Bob", "IT"),
+            new Employee("Charlie", "HR"),
+            new Employee("David", "IT")
+        );
+        
+        Map<String, Long> departmentCount = employees.stream()
+            .collect(Collectors.groupingBy(emp -> emp.department, Collectors.counting()));
+        
+        System.out.println(departmentCount);
+    }
+}
+
+4. Find Duplicates and Their Frequency
+
+public class DuplicatesFrequency {
+    public static void main(String[] args) {
+        List<String> items = Arrays.asList("apple", "banana", "apple", "orange", "banana", "apple");
+        
+        Map<String, Long> frequencyMap = items.stream()
+                                              .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        
+        System.out.println("Duplicates and their frequency: " + frequencyMap);
+    }
+}
+
+
+
+
+Advanced and Hard Questions
+
+public class SecondLargest {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(5, 1, 3, 2, 4, 5, 4);
+        
+        Integer secondLargest = numbers.stream()
+                                       .distinct()
+                                       .sorted(Comparator.reverseOrder())
+                                       .skip(1)
+                                       .findFirst()
+                                       .orElse(null);
+        System.out.println("Second Largest: " + secondLargest);
+    }
+}
+
+3. Group Employees by Department and Count
+
+
+class Employee {
+    String name;
+    String department;
+    
+    public Employee(String name, String department) {
+        this.name = name;
+        this.department = department;
+    }
+}
+
+public class GroupByDepartment {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("Alice", "HR"),
+            new Employee("Bob", "IT"),
+            new Employee("Charlie", "HR"),
+            new Employee("David", "IT")
+        );
+        
+        Map<String, Long> departmentCount = employees.stream()
+            .collect(Collectors.groupingBy(emp -> emp.department, Collectors.counting()));
+        
+        System.out.println(departmentCount);
+    }
+}
+4. Find Duplicates and Their Frequency
+
+public class DuplicatesFrequency {
+    public static void main(String[] args) {
+        List<String> items = Arrays.asList("apple", "banana", "apple", "orange", "banana", "apple");
+        
+        Map<String, Long> frequencyMap = items.stream()
+                                              .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        
+        System.out.println("Duplicates and their frequency: " + frequencyMap);
+    }
+}
+
+5. Custom Collector to Partition Primes and Non-Primes
+
+public class PrimePartition {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9);
+        
+        Map<Boolean, List<Integer>> partitioned = numbers.stream()
+            .collect(Collectors.partitioningBy(PrimePartition::isPrime));
+        
+        System.out.println("Primes: " + partitioned.get(true));
+        System.out.println("Non-Primes: " + partitioned.get(false));
+    }
+
+    private static boolean isPrime(int number) {
+        if (number <= 1) return false;
+        return IntStream.range(2, number).noneMatch(i -> number % i == 0);
+    }
+}
+
+
+
+6. Find the Highest Transaction in Each Month
+
+class Transaction {
+    int amount;
+    String month;
+
+    public Transaction(int amount, String month) {
+        this.amount = amount;
+        this.month = month;
+    }
+}
+
+public class HighestTransaction {
+    public static void main(String[] args) {
+        List<Transaction> transactions = Arrays.asList(
+            new Transaction(100, "January"),
+            new Transaction(200, "January"),
+            new Transaction(150, "February"),
+            new Transaction(300, "February")
+        );
+        
+        Map<String, Optional<Transaction>> highestPerMonth = transactions.stream()
+            .collect(Collectors.groupingBy(
+                tx -> tx.month, 
+                Collectors.maxBy(Comparator.comparingInt(tx -> tx.amount))
+            ));
+        
+        highestPerMonth.forEach((month, transaction) -> 
+            System.out.println(month + ": " + transaction.get().amount)
+        );
+    }
+}
+
+Performance & Parallel Streams
+7. Use Parallel Streams to Sum Large Data
+
+public class ParallelSum {
+
+	public static void main(String[] args) {
+		long startTime = System.nanoTime();
+		long sumSequential = IntStream.rangeClosed(1, 10_000_00).sequential().sum();
+		System.out.println("Sum: " + sumSequential);
+
+		long endTime = System.nanoTime();
+		long executionTime = endTime - startTime; // In nanoseconds
+		System.out.println("Execution time: " + executionTime + " nanoseconds");
+		System.out.println("Execution time: " + (executionTime / 1_000_000) + " milliseconds");
+
+		
+
+		System.out.println("------------------Parallel------------------");
+
+		long startTimeParallel = System.nanoTime();
+		long sumParaller = IntStream.rangeClosed(1, 10_000_00).parallel().sum();
+		System.out.println("Sum: " + sumParaller);
+
+		long endTimeParallel = System.nanoTime();
+		long executionTimeParallel = endTimeParallel - startTimeParallel; // In nanoseconds
+		System.out.println("Execution time: " + executionTimeParallel + " nanoseconds");
+		System.out.println("Execution time: " + (executionTimeParallel / 1_000_000) + " milliseconds");
+	
+
+	}
+
+}
+
+
+8. Split List into Even and Odd
+
+public class SplitEvenOdd {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        
+        Map<Boolean, List<Integer>> partitioned = numbers.stream()
+            .collect(Collectors.partitioningBy(num -> num % 2 == 0));
+        
+        System.out.println("Even: " + partitioned.get(true));
+        System.out.println("Odd: " + partitioned.get(false));
+    }
+}
+
+
+9. Pagination with Streams
+
+public class Pagination {
+    public static void main(String[] args) {
+        List<Integer> numbers = IntStream.rangeClosed(1, 100).boxed().collect(Collectors.toList());
+        
+        int pageSize = 5;
+        int page = 3; // Fetch the 2nd page (6th to 10th elements)
+        
+        List<Integer> paginatedList = numbers.stream()
+                                             .skip((page - 1) * pageSize)
+                                             .limit(pageSize)
+                                             .collect(Collectors.toList());
+        
+        System.out.println("Page " + page + ": " + paginatedList);
+    }
+}
+
+Output : Page 3: [11, 12, 13, 14, 15]
+
+10: Sorting the elements without using sorted method
+
+List<Integer> numbers1 = Arrays.asList(5, 1, 3, 2, 4, 5, 4, 1);
+		TreeSet<Integer> set = numbers1.stream()
+				.collect(Collectors.toCollection(() -> new TreeSet<>((a, b) -> a > b ? -1 : 1)));
+		System.out.println(set);
+
+
+11. Reverse a string without using Stringbuilder / Buffer  in java 8
+
+String input = "Hello, World!";
+		String reverse = input.chars().mapToObj(ca -> (char) ca)
+				.collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+					String str = "";
+					for (int i = list.size() - 1; i >= 0; i--) {
+						str = str + list.get(i);
+					}
+					return str;
+				}));
+		System.out.println(reverse);
+
+
+12.Write a program to find the intersection (common elements) of two lists using Streams.
+
+public static void main(String[] args) {
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> list2 = Arrays.asList(4, 5, 6, 7, 8);
+
+        // Convert list2 to a Set for efficient lookups
+        Set<Integer> set2 = new HashSet<>(list2); // More Efficient Approach (Using Set):
+
+        // Finding the intersection using Streams
+        List<Integer> intersection = list1.stream()
+                                          .filter(set2::contains)  // Check if list1 element is in set2
+                                          .collect(Collectors.toList());
+
+        // Printing the intersection
+        System.out.println("Intersection: " + intersection);  // Output: [4, 5]
+    }
+---**-----
+
+
+1. Print the 3rd highest from array.
+
+Using Streams API, Collections, Priority Queue, Treeset
+
+2. reverse a given string. i/p="Capgemini"
+Using Streams APi, StringBuilder, StringBuffer, native for loop, recursion, two-point array swap etc
+-------***------
+
+Java
+•	Reactive programming in Java
+•	abstract interface and class
+Feature	Abstract Class	Interface
+Instantiation	Cannot be instantiated directly.	Cannot be instantiated directly.
+Methods	Can have both abstract and concrete methods.	Can only have abstract methods (except default and static methods).
+Constructor	Can have constructors.	Cannot have constructors.
+State	Can have instance variables (fields).	Cannot have instance variables (only constants).
+Multiple Inheritance	Can only extend one class (single inheritance).	A class can implement multiple interfaces.
+Default Methods	Cannot have default methods (before Java 8).	Can have default and static methods (Java 8+).
+Access Modifiers	Methods can have various access modifiers (e.g., protected, private).	All methods are public by default (except static methods).
+Use Case	When you need a base class with default behavior and common functionality.	When you need to define a contract or a common set of capabilities across unrelated classes.
+o	Key Differences Between Abstract Class and Interface
+o	
+•	can we add constructor in abstract class and interface?
+•	Use of static (Nested) class?
+o	Grouping Related Classes, Encapsulation, Accessing Static Members, Improved Readability, Reduction of Namespace Pollution
+•	Can we override static methods?
+o	NO, we can overload them.
+•	Java memory types with example 
+o	Heap
+	Dynamic memory – Store objects
+o	Stack
+	Static memory - Store primitive data types, called method frame and reference to objects in heap.
+o	Method area
+	Shared memory area – Stores runtime constant pool, field, and method data, and the code for methods and constructors.
+o	PC (Program counter) Register
+	Address of the JVM instruction currently being executed.
+o	Native method stack
+	Native methods written in other languages than Java.
+•	what is abstract data?
+o	Separates its abstract properties and behaviours from its concrete implementation details.
+o	Abstract Data Types (ADTs)
+	The type of data stored.
+	The operations that can be performed on the data.
+	The semantics of these operations.
+o	Examples: Stack, Queue, List, Set and Map
+o	Benefits:
+	Modularity
+	Maintainability
+	Reusability
+	Abstraction
+•	Java 8 features
+o	Lambda expression (anonymous methods/functions)
+o	Functional interface (SAM)
+o	Stream APIs
+o	Default methods
+o	Optional
+o	New Date and Time API
+•	Java 17 features
+o	Sealed classes
+o	Record
+o	New pattern matching for instanceof
+o	Enhanced switch statement
+o	Text block
+•	Built in functional interface:
+o	Predicate -> Boolean test (T t)
+o	Supplier -> R get ()
+o	Consumer -> void accept (T t)
+o	Function -> R apply (T t)
+o	BiFunction -> R apply (T t, U u)
+o	UnaryOperator -> T apply (T t) -> return same type as argument
+o	BinaryOperator -> T apply (T t, T1 t) -> return same type as argument
+•	Intermediary operation?
+o	Filter, map, distinct, sorted, peek, flatMap
+•	can we extend functional interface into another functional interface?
+o	NO
+•	What is default and static method in interface?
+o	Default method – to provide default implementation
+o	Static method – it can be accessible through Interface instead of instance
+•	how much lambda and functional interface tightly coupled?
+o	Yes, too much for lambda
+	Direct Dependency
+	Type Inference
+	Implementation of Abstract Methods
+	Functional Programming Features
+	Expressiveness and Readability
+o	We can implement functional interface without lambda, using class/anonymous-inner-class but not lambda.
+•	Method reference
+o	Static method
+	ClassName::methodName -> Integer::parseInt
+o	Instance Method of a Particular Object
+	object::methodName -> str::length
+o	Instance Method of an Arbitrary Object of a Particular Type
+	ClassName::methodName -> System.out::println
+o	Constructor
+	ClassName::new -> Person::new
+•	Record
+o	Reduce boilerplate code
+o	Immutability
+o	Auto generated methods [toString(), equals() and hashCode()]
+•	Use of var keywords in java 17
+o	Dynamic variable type……variable type depends on value assign to it
+•	Dynamic binding
+o	known as late binding
+o	Key Concepts:
+	Polymorphism
+	Method Overriding
+	Virtual Methods
+o	Advantages:
+	Flexibility
+	Extensibility
+	Runtime Polymorphism
+o	Disadvantages
+	Performance Overhead
+	Complexity
+	Less Predictability
+•	Object cloning
+o	Shallow cloning
+o	Deep cloning
+•	Avoid memory leak
+o	Try with resources (also use stream()) 
+	try (Stream<String> lines = Files.lines(path)) {}
+•	how to define generic in java
+o	Generic class <T>
+o	Generic method <T>
+o	Bound type parameter <T extends Number>
+o	Generic interface
+o	WildCards
+	Unbound wildcard <?>
+	Upper-Bounded Wildcards <? extends Number>
+	Lower-Bounded Wildcards <? super Integer>
+•	Immutable class in detail
+o	No setter
+o	Private and final fields
+o	Init through constructor
+o	No mutable object exposed (Defensive copy)
+•	ways to make a class/method thread safe(deeper knowledge of multithreading, race condition)
+•	callable and runnable interfaces in thread
+•	Multi Thread
+o	To perform tasks concurrently
+o	Advantages:
+	Responsiveness
+	Resource Sharing
+	Performance
+o	Challenges:
+	Synchronization
+	Deadlocks
+	Complexity
+o	Common Threading Models:
+	Pre-emptive Multitasking – OS decides when to switch between threads
+	Cooperative Multitasking - Threads yield control voluntarily
+•	What is Deadlock, Live-lock and Starvation?
+o	Deadlock: Threads are waiting indefinitely for each other to release resources.
+o	Live-lock: Threads are actively changing states in response to each other but make no progress.
+o	Starvation: A thread is perpetually denied resources, usually due to resource allocation policies favouring other threads.
+o	Prevention and Handling:
+	Deadlock Prevention: Use techniques such as resource ordering, timeouts, or avoiding circular waits.
+	Live-lock Management: Implement backoff strategies or randomized waits to break the cycle of interference.
+	Starvation Prevention: Use fair scheduling algorithms, like those provided by the Java ReentrantLock class with fairness policies.
+
+•	Differentiate between the Thread class and Runnable interface for creating a Thread? 
+o	Inheritance
+o	Separation of Concerns
+o	Flexibility
+o	Resource Management
+•	What is context switching? provide example in java 
+o	Process of storing the state of a currently running thread or process so that it can be resumed later
+o	Thread sleep helps to achieve this feature
+•	Volatile keyword
+o	Modified value visible to all threads
+•	wait vs sleep in thread
+Feature	wait()	sleep()
+Purpose	Inter-thread communication	Pause execution of current thread
+Class	Object	Thread
+Lock Release	Releases lock	Does not release lock
+Wake Up	Wakes up when notify() or notifyAll() is called	Automatically after specified duration
+Synchronization	Must be called within a synchronized block or method	Can be called from any context
+Exception	Throws InterruptedException	Throws InterruptedException
+
+•	Thread Lifecycle
+o	New
+o	Runnable
+o	Running
+o	Waiting/Blocked
+o	Terminated
+•	Join () in thread
+o	To pause the execution of the current thread until join-thread ends
+•	How to solve a deadlock condition? 
+o	Avoid Nested Locks
+o	Use Try-Lock
+o	Timeout Locks
+o	Deadlock Detection
+o	Lock Ordering
+o	Single Lock
+
+•	Executor service
+o	part of the java.util.concurrent package
+o	Key Features:
+	Thread Management
+	Task Submission
+	Task Completion
+	Graceful Shutdown
+•	future and completableFuture - timeout
+•	What is the synchronization?
+o	Two or more concurrent threads do not simultaneously execute some code segment known as a critical section
+o	Method-Level Synchronization
+o	Block-Level Synchronization
+•	Why Synchronization is Important?
+o	Thread Interference
+o	Memory Consistency Errors
+•	Drawbacks of Synchronization
+o	Performance Overhead
+o	Deadlock
+o	Reduced Concurrency
+•	Comparable
+o	Natural ordering
+•	Comparator
+o	Custom ordering
+•	Serialization
+o	Serialization: Converting an object into a byte stream.
+o	Deserialization: Converting a byte stream back into an object.
+o	Serializable Interface: A marker interface to signal that a class can be serialized.
+o	Custom Serialization: Using writeObject and readObject methods to customize serialization.
+o	Transient Fields: Fields marked as transient are not serialized.
+o	serialVersionUID: A unique identifier for a serializable class to ensure compatibility during deserialization.
+•	Internal working of ConcurrentHashMap
+o	Thread safety
+o	No null keys/values
+o	Segments (Java 7 and earlier)
+o	Array of Node or TreeNode (Java 8+)
+	CAS – Compare and Swap
+o	High Concurrency
+o	Memory Overhead
+•	Internal working of Set/HashMap
+o	Stored in hash table
+o	Hash code from content
+o	Bucket index from hash code
+o	Resize if 75% full
+•	hashing- equals and hashcode method, hash collision
+•	Hash code collision in java HashMap internal working
+o	Collision handling: HashMap uses separate chaining (linked list) for collisions and converts to a tree if needed.
+o	equals (): The equals () method helps distinguish between different objects with the same hash code.
+o	Resizing: To reduce the number of collisions, HashMap resizes when the load factor is exceeded.
+o	Performance: Lookup in a linked list has O (n) complexity, but with Java 8’s tree implementation, it can be reduced to O (log n) in case of heavy collisions.
+•	How TreeMap sort data.... explain internal of it
+o	Backed by a Red-Black Tree (log (n) for insertion, deletion and search)
+o	Key Properties:
+	Binary Search Tree (maintain key -> small = left & big = right)
+	Balancing (hight max to 2*log(n))
+	Colouring and Rotation
+o	Sorting:
+	Comparable (natural order)
+	Comparator (custom order)
+o	Insertion:
+	Compare the key, Find correct position, Insert the node, Rebalance the tree
+o	Search:
+	Compare the key, move to left/right, found or reach at leaf node
+o	Deletion:
+	Find the node, Rebalancing, Rebalancing keeps O (log n)
+•	Internal working of marker interface
+o	Uses ‘instanceof’
+o	Type safety
+o	Polymorphism
+o	Clean intent
+o	Simpler implementation
+•	Internal working of collections
+o	ArrayList
+	Uses a dynamic array for storing elements, offering fast access but potentially expensive inserts/deletes due to resizing and shifting.
+o	LinkedList
+	Uses a doubly linked list, offering fast inserts/deletes at the beginning or end, but slower access times.
+o	HashMap
+	Uses a hash table with linked lists or balanced trees for collision handling, offering fast access, insert, and delete operations.
+o	TreeSet
+	Uses a Red-Black Tree, ensuring elements are sorted and providing fast search, insert, and delete operations.
+o	HashSet
+	Backed by HashMap, offering fast insertion and lookup without duplicates.
+
+o	PriorityQueue
+	Uses a binary heap for maintaining a priority order, providing efficient access to the minimum or maximum element.
+
+•	Fail fast vs Fail safe in java
+o	Fail-Fast:
+	Iterators throw ConcurrentModificationException on structural modification.
+	Designed to prevent inconsistent or unexpected behaviour.
+	Examples: ArrayList, HashMap.
+o	Fail-Safe:
+	Iterators do not throw exceptions on structural modification.
+	Operate on a copy of the collection, meaning changes during iteration won’t be reflected.
+	Examples: CopyOnWriteArrayList, ConcurrentHashMap.
+•	String internals & its memory management
+o	Immutable
+o	String pool (part of heap)
+o	Intern ()
+•	Why String is immutable
+o	String immutability in Java offers security, performance optimizations, thread safety, and simplicity in handling strings.
+•	List
+o	ArrayList – O (1)
+	Dynamic array
+	Fast random access
+o	LinkedList – O (n)
+	Doubly linked list
+	Frequent insertion and deletion
+o	Vector – O (1)
+	Dynamic array
+	Thread safety
+o	Stack - O (1)
+	Extends vector and implement LIFO stack
+	When LIFO needed
+•	Set
+o	HashSet – O (1)
+	Hash Table
+	Uniqueness and fast access
+o	LinkedHashSet – O (1)
+	Hash Table with Linked list
+	Uniqueness and insertion order
+o	TreeSet – O (log n)
+	Red-black tree
+	Uniqueness and natural/custom order
+
+•	Map
+o	HashMap – O (1)
+	Hash table
+	Fast access
+o	LinkedHashMap – O (1)
+	Hash table with doubly linked list
+	Predictable Insertion order
+o	TreeMap – O (log n)
+	Red-black tree
+	Sorted keys
+o	HashTable – O (1)
+	Hash table
+	Thread safety
+o	ConcurrentHashMap – O (1)
+	Hash table with finer-grained locking
+	Thread safety with high performance
+•	Queue
+o	LinkedList – O (1)
+	Doubly linked list
+	Simple queue is needed
+o	PriorityQueue – O (log n)
+	Binary heap
+	Priority based queue
+o	ArrayDeque – O (1)
+	Resizable array
+	Better than LinkedList
+•	Array-based collections (like ArrayList, Vector, ArrayDeque) store elements in contiguous memory blocks. They are efficient for random access but require resizing and copying when the array grows.
+•	Linked-based collections (like LinkedList, HashSet, LinkedHashSet) store elements in nodes with references to other nodes, which allows for efficient insertions and deletions but less efficient random access.
+•	Tree-based collections (like TreeSet, TreeMap) store elements in a hierarchical structure (Red-Black tree) that ensures order and balanced operations but with higher overhead compared to hash-based collections.
+•	Hash-based collections (like HashMap, HashSet, ConcurrentHashMap) use a hash table to store elements, offering average O (1) access time. They handle collisions through linked lists or trees within each bucket. They may consume more memory due to the need for handling collisions and maintaining load factors.
+•	for loop and stream API difference
+•	handle exception in streams
+
+
+________________________________________________________
+
+ Coding Questions
+•	reverse the letters in a string without reversing the words
+•	only 1 object occurs once in a list, print that with the help of streams
+•	Longest substring without repeating chars
+•	print name and count of employees working in each dept. using streams
+•	2d array spiral traversal
+
+What is the issue in the below code? How can we break such issues in Spring Boot?
+@Component 
+class A {
+  @Autowired
+  private B obj B;
+}
+
+@Component 
+class B {
+  @Autowired
+  private A obj A;
+}
+ 
+Two microservices (MS1, MS2) are running.
+MS1 -----> hitting the DB multiple time, like 1000 times in an hour, and doing write operations.
+MS2 -----> hitting the DB few times, like 2-3 times in an hour, and also doing write operations.
+In which scenario, you would like to implement JPA and why?
+In which scenario, you would like to implement JdbcTemplate and why?
+
+
+Write code for finding first non-repeated character from above string?
+
+Write a Java program using Threads to print ODD and Even numbers & explain each line of code (One thread to print ODD and other thread to print Even Numbers)
+
+String arr[] = { "abcd", "java", "dcba", "ajav", "xyz", "epam", "pame", "aepm" }
+ 
+O/P: [epam, pame, aepm] contains same character
+ 
+ 
+
